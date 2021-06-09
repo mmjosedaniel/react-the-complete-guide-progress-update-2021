@@ -9,12 +9,24 @@ import classes from "./AddUser.module.css";
 const AddUser = (props) => {
   const [enteredUserName, setEnteredUsername] = useState("");
   const [enteredAge, setEnteredAge] = useState("");
+  const [error, setError] = useState();
 
   const addUserHandler = (event) => {
     event.preventDefault();
-    if (enteredUserName.trim().length === 0 || enteredAge.trim().length === 0)
+    if (enteredUserName.trim().length === 0 || enteredAge.trim().length === 0) {
+      setError({
+        titel: "Invalid input",
+        message: "Please enter a valid name or age (non-empty values).",
+      });
       return;
-    if (+enteredAge < 1) return;
+    }
+    if (+enteredAge < 1) {
+      setError({
+        titel: "Invalid age",
+        message: "Please enter a valid age (> 0).",
+      });
+      return;
+    }
     props.onAddUser(enteredUserName, enteredAge);
     setEnteredUsername("");
     setEnteredAge("");
@@ -28,9 +40,19 @@ const AddUser = (props) => {
     setEnteredAge(event.target.value);
   };
 
+  const errorHandler = () => {
+    setError(null);
+  };
+
   return (
     <div>
-      <ErrorModal tite="An error ocurred!" message="Something went grong!" />
+      {error && (
+        <ErrorModal
+          tite={error.title}
+          message={error.message}
+          onConfirm={errorHandler}
+        />
+      )}
       <Card className={classes.input}>
         <form onSubmit={addUserHandler}>
           <label htmlFor="userName">Username</label>
