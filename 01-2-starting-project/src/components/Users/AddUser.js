@@ -16,14 +16,14 @@ const AddUser = (props) => {
     event.preventDefault();
     if (enteredUserName.trim().length === 0 || enteredAge.trim().length === 0) {
       setError({
-        titel: "Invalid input",
+        title: "Invalid input",
         message: "Please enter a valid name or age (non-empty values).",
       });
       return;
     }
     if (+enteredAge < 1) {
       setError({
-        titel: "Invalid age",
+        title: "Invalid age",
         message: "Please enter a valid age (> 0).",
       });
       return;
@@ -49,7 +49,7 @@ const AddUser = (props) => {
     <Wrapper>
       {error && (
         <ErrorModal
-          tite={error.title}
+          title={error.title}
           message={error.message}
           onConfirm={errorHandler}
         />
